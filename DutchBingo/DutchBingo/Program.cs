@@ -89,6 +89,20 @@ namespace Bingo
                 Console.WriteLine("{0} not found", name);     
         }
 
+        //show orphans
+        private static void ShowOphans() {
+            Console.Write(" \nThose who are Orphans: \n \n");
+            foreach (GraphNode n in rg.nodes) {
+                    List<GraphEdge> parentsEdge = n.GetEdges("hasParent");
+                if (parentsEdge.Count == 0) {
+                    Console.Write(n.Name);
+                    Console.WriteLine();
+                }
+            }
+        }
+
+
+
         // accept, parse, and execute user commands
         private static void CommandLoop()
         {
@@ -121,9 +135,13 @@ namespace Bingo
                 else if (command == "dump")
                     rg.Dump();
 
+                else if (command == "orphans") {
+                    ShowOphans();
+                }
+
                 // illegal command
                 else
-                    Console.Write("\nLegal commands: read [filename], dump, show [personname],\n  friends [personname], exit\n");
+                    Console.Write("\nLegal commands: read [filename], dump, show [personname],\n  friends [personname], orphans, exit\n");
             }
         }
 
