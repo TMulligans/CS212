@@ -14,6 +14,9 @@ namespace Bingo
 
         public List<GraphEdge> incidentEdges { get; private set; }
 
+
+        private int myDistance;
+
         // constructor
         public GraphNode(string v)
         {
@@ -57,6 +60,9 @@ namespace Bingo
                 result = result + "  " + e.ToString() + "\n";
             }
             return result;
-        } 
+        }
+        public void setDistance(int x) {myDistance = x;}
+        public int getDistance() { return myDistance; }
     }
+
 }

@@ -27,8 +27,8 @@ namespace Bingo
                 input = input.Replace("\r", ";");                   // get rid of nasty carriage returns 
                 input = input.Replace("\n", ";");                   // get rid of nasty new lines
                 string[] inputItems = Regex.Split(input, @";\s*");  // parse out the relationships (separated by ;)
-                foreach (string item in inputItems) 
-		{
+                foreach (string item in inputItems)
+                {
                     if (item.Length > 2)                            // don't bother with empty relationships
                     {
                         values = Regex.Split(item, @"\s*:\s*");     // parse out relationship:name
@@ -39,7 +39,7 @@ namespace Bingo
                             numPeople++;
                         }
                         else
-                        {               
+                        {
                             rg.AddEdge(name, values[1], values[0]); // add relationship (name1, name2, relationship)
 
                             // handle symmetric relationships -- add the other way
@@ -78,22 +78,22 @@ namespace Bingo
             GraphNode n = rg.GetNode(name);
             if (n != null)
             {
-                Console.Write("{0}'s friends: ",name);
+                Console.Write("{0}'s friends: ", name);
                 List<GraphEdge> friendEdges = n.GetEdges("hasFriend");
                 foreach (GraphEdge e in friendEdges) {
-                    Console.Write("{0} ",e.To());
+                    Console.Write("{0} ", e.To());
                 }
                 Console.WriteLine();
             }
             else
-                Console.WriteLine("{0} not found", name);     
+                Console.WriteLine("{0} not found", name);
         }
 
         //show orphans
         private static void ShowOphans() {
             Console.Write(" \nThose who are Orphans: \n \n");
             foreach (GraphNode n in rg.nodes) {
-                    List<GraphEdge> parentsEdge = n.GetEdges("hasParent");
+                List<GraphEdge> parentsEdge = n.GetEdges("hasParent");
                 if (parentsEdge.Count == 0) {
                     Console.Write(n.Name);
                     Console.WriteLine();
@@ -101,6 +101,24 @@ namespace Bingo
             }
         }
 
+
+        private static void bingo(string beginning, string ending) {
+            GraphNode start = rg.GetNode(beginning);
+            GraphNode end = rg.GetNode(ending);
+            foreach (GraphNode e in rg.nodes) {
+                if (e == start)
+                {
+                    e.setDistance(0);
+                }
+                else {
+                    e.setDistance(2147483647);
+                }
+                
+            }
+
+
+
+        } 
 
 
         // accept, parse, and execute user commands
@@ -137,6 +155,10 @@ namespace Bingo
 
                 else if (command == "orphans") {
                     ShowOphans();
+                }
+
+                else if (command == "bingo" && commandWords.Length > 1) {
+                    bingo(commandWords[1], commandWords[2]);
                 }
 
                 // illegal command
