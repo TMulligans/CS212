@@ -116,9 +116,40 @@ namespace Bingo
                 
             }
 
+        }
 
+        private static void descendants(string name, int level) {
+            GraphNode n = rg.GetNode(name);
+            List<GraphEdge> childEdge = n.GetEdges("hasChild");
+            if (level == 0) {
+                Console.Write("The Descendants of ");
+                Console.Write(name);
+                Console.Write("\n\n");
+                Console.WriteLine();
+            } else if (level == 1) {
+                Console.Write("Child --> ");
+                Console.Write(name);
+               // Console.Write("\n");
+                Console.WriteLine();
+            } else if (level == 2) {
+                Console.Write("Grandchild --> ");
+                Console.Write(name);
+               // Console.Write("\n");
+                Console.WriteLine();
+            } else {
+                for (int i = 2; i < level; i++) {
+                    Console.Write("Great ");
+                }
+                Console.Write("Grandchild --> ");
+                Console.Write(name);
+              //  Console.Write("\n");
+                Console.WriteLine();
+            }
+            foreach(GraphEdge e in childEdge){
+                descendants(e.To(), level +1);
 
-        } 
+            }
+        }
 
 
         // accept, parse, and execute user commands
@@ -126,7 +157,7 @@ namespace Bingo
         {
             string command = "";
             string[] commandWords;
-            Console.Write("Welcome to Harry's Dutch Bingo Parlor!\n");
+            Console.Write("Welcome to Mulligan's Dutch Bingo Bananza!\n");
 
             while (command != "exit")
             {
@@ -160,10 +191,13 @@ namespace Bingo
                 else if (command == "bingo" && commandWords.Length > 1) {
                     bingo(commandWords[1], commandWords[2]);
                 }
+                else if (command == "descendants" && commandWords.Length > 1) {
+                    descendants(commandWords[1], 0);
+                }
 
                 // illegal command
                 else
-                    Console.Write("\nLegal commands: read [filename], dump, show [personname],\n  friends [personname], orphans, exit\n");
+                    Console.Write("\nLegal commands: read [filename], dump, show [personname],\n  friends [person name], orphans, descendants [person name], exit\n");
             }
         }
 
